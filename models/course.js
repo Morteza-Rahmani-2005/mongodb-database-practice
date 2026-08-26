@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import teachersModel from "@/models/teacher";
 
 const schema = mongoose.Schema(
   {
@@ -17,12 +18,17 @@ const schema = mongoose.Schema(
       min: 0,
       max: 100000000,
     },
+    teacher: {
+      type: mongoose.Types.ObjectId,
+      ref: "Teacher",
+      required: true,
+    },
   },
   {
     timestamps: true,
   },
 );
 
-const model = mongoose.model.Course || mongoose.model("Course", schema);
+const model = mongoose.models.Course || mongoose.model("Course", schema);
 
 export default model;

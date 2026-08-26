@@ -5,15 +5,15 @@ export default async function handler(req, res) {
   connectToDB();
   switch (req.method) {
     case "GET": {
-      const course = await coursesModel.find();
+      const course = await coursesModel.find({}).populate("teacher");
 
       res.json(course);
       break;
     }
     case "POST": {
-      const { name, price } = req.body;
+      const { name, price, teacher } = req.body;
 
-      const course = await coursesModel.create({ name, price });
+      const course = await coursesModel.create({ name, price, teacher });
 
       if (course) {
         res.json({ message: "The course was successfully registered." });
