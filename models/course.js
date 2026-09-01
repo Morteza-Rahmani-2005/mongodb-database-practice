@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
-import teachersModel from "@/models/teacher";
+// import teachersModel from "@/models/teacher";
+import { schema as teacherSchema } from "@/models/teacher"
 
-const schema = mongoose.Schema(
+export const schema = mongoose.Schema(
   {
     name: {
       type: String,
@@ -19,8 +20,8 @@ const schema = mongoose.Schema(
       max: 100000000,
     },
     teacher: {
-      type: mongoose.Types.ObjectId,
-      ref: "Teacher",
+      type: teacherSchema,
+      // ref: "Teacher",
       required: true,
     },
   },
