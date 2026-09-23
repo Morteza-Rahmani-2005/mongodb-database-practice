@@ -2,6 +2,8 @@ import connectToDB from "@/utils/db";
 import coursesModel from "@/models/course";
 import TeachersModel from "@/models/teacher";
 
+import courseValidator from "@/validator/course"
+
 export default async function handler(req, res) {
   connectToDB();
   switch (req.method) {
@@ -14,20 +16,26 @@ export default async function handler(req, res) {
     case "POST": {
       const { name, price, teacher } = req.body;
 
+      const validaitonCourse = courseValidator(req.body)
 
-
-      const mainTeachers = await TeachersModel.findOne({ _id: teacher })
-
-
-      const course = await coursesModel.create({ name, price, teacher: mainTeachers });
-
-      if (course) {
-        res.json({ message: "The course was successfully registered." });
+      if (validaitonCourse === true) {
+        return res.status(422).json(validaitonCourse)
       } else {
-        res.json({
-          message: "There was a problem registering for the course.",
-        });
+
+        const mainTeachers = await TeachersModel.findOne({ _id: teacher })
+
+
+        const course = await coursesModel.create({ name, price, teacher: mainTeachers });
+
+        if (course) {
+          res.json({ message: "The course was successfully registered." });
+        } else {
+          res.json({
+            message: "There was a problem registering for the course.",
+          });
+        }
       }
+
 
       break;
     }

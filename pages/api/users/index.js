@@ -3,6 +3,7 @@ import usersModel from "@/models/user";
 
 export default async function handler(req, res) {
   connectToDB();
+  console.log(process.env.port)
   switch (req.method) {
     case "GET": {
       const users = await usersModel.find();

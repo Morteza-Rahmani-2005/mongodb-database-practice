@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 // import teachersModel from "@/models/teacher";
 import { schema as teacherSchema } from "@/models/teacher"
+import commentsModel from "@/models/comment";
 
 export const schema = mongoose.Schema(
   {
@@ -27,8 +28,16 @@ export const schema = mongoose.Schema(
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   },
 );
+
+schema.virtual("comments", {
+  ref: "Comment",
+  localField: "_id",
+  foreignField: "course"
+})
 
 const model = mongoose.models.Course || mongoose.model("Course", schema);
 
